@@ -1,16 +1,15 @@
-package com.github.demidko.library
+package com.github.demidko.tokenizer
 
-import com.github.demidko.library.Library
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Test
 
 
-class LibraryTest {
+class TokenizerTest {
 
   @Test
   fun testSomeLibraryMethod() {
-    val classUnderTest = Library()
+    val classUnderTest = Tokenizer()
     assertThat(classUnderTest.someLibraryMethod(), equalTo(true))
   }
 }

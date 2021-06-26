@@ -1,36 +1,58 @@
-# Library
+# Tokenizer
 
-Java library template written in the Kotlin language.
+Java tokenizer library written in the Kotlin language.
 
 ## Usage
 
-Make sure you are signed in to your GitHub account, then just
-click [`here`](https://github.com/demidko/library/generate) to use template.
+```kotlin
 
-## Build
-
-```shell
-./gradlew build
 ```
 
-Your jar library will be located at `./build/libs`. See
-also [Gradle documentation](https://docs.gradle.org/current/samples/sample_building_java_libraries.html)
-.
+## Download with [Gradle](https://gradle.org/)
 
-## Deploy
-
-Create GitHub release with source code. Then, tell the world where to get your library, for example:
+Add the JitPack repository to your `build.gradle.kts`:
 
 ```kotlin
 repositories {
     maven("https://jitpack.io")
 }
+```
+
+Add the dependency:
+
+```kotlin
 dependencies {
-    implementation("com.github.demidko:library:1.0")
+    implementation("com.github.demidko:print-utils:2021.06.26")
 }
 ```
 
-See also [JitPack documentation](https://jitpack.io/docs/#publishing-on-jitpack).
+## Download with [Maven](https://maven.apache.org/)
+
+Add the JitPack repository to your `pom.xml`:
+
+```xml
+
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+```
+
+Add the dependency:
+
+```xml
+
+<dependencies>
+  <dependency>
+    <groupId>com.github.demidko</groupId>
+    <artifactId>print-utils</artifactId>
+    <version>2021.06.26</version>
+  </dependency>
+</dependencies>
+```
+
 
 
 
