@@ -6,6 +6,20 @@ Java tokenizer library written in the Kotlin language.
 
 ```kotlin
 
+val tokens = "475i + '7days' + unknown".tokenize()
+
+// [ Token(lexeme=475, type=DECIMAL_DIGIT_NUMBER), 
+// Token(lexeme=i, type=LOWERCASE_LETTER), 
+// Token(lexeme=+, type=MATH_SYMBOL), 
+// Token(lexeme='7days', type=OTHER_PUNCTUATION), 
+// Token(lexeme=+, type=MATH_SYMBOL), 
+// Token(lexeme=unknown, type=LOWERCASE_LETTER) ]
+
+// or alse
+
+fun getCustomType(lexeme: String): CustomType = ...
+
+val tokensWithCustomTypes = "475i + '7days' + unknown".tokenize(::getCustomType)
 ```
 
 ## Download with [Gradle](https://gradle.org/)
@@ -22,7 +36,7 @@ Add the dependency:
 
 ```kotlin
 dependencies {
-    implementation("com.github.demidko:print-utils:2021.06.26")
+    implementation("com.github.demidko:tokenizer:2021.06.26")
 }
 ```
 
@@ -47,7 +61,7 @@ Add the dependency:
 <dependencies>
   <dependency>
     <groupId>com.github.demidko</groupId>
-    <artifactId>print-utils</artifactId>
+    <artifactId>tokenizer</artifactId>
     <version>2021.06.26</version>
   </dependency>
 </dependencies>
