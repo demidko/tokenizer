@@ -18,9 +18,6 @@ val tokens = "475i + '7days' + unknown".tokenize()
 // '7days'
 // +
 // unknown
-
-val tokensWithCustomTypes = "475i + '7days' + unknown".tokenize { this.getType() }
-// also, you can use tokenizer with custom types
 ```
 
 

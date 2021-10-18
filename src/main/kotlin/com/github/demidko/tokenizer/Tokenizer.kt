@@ -1,20 +1,15 @@
 package com.github.demidko.tokenizer
 
-/** A token consists of a lexeme and its semantic norm. */
-data class Token<T>(val lexeme: String, val type: T?)
-
-fun String.tokenize() = tokenize { null }.map(Token<Nothing?>::lexeme)
-
 /** This function is the core of the tokenizer, providing parsing of tokens in linear time. */
-fun <T> String.tokenize(type: String.() -> T): List<Token<T>> = when (val diff = indexOfFirstDiff()) {
-  -1 -> grep(type)
-  else -> substring(0 until diff).grep(type) + substring(diff until length).tokenize(type)
+fun String.tokenize(): List<String> = when (val diff = indexOfFirstDiff()) {
+  -1 -> grep()
+  else -> substring(0 until diff).grep() + substring(diff until length).tokenize()
 }
 
 /** Processing discovered lexemes */
-private fun <T> String.grep(type: String.() -> T) = when (isBlank()) {
+private fun String.grep() = when (isBlank()) {
   true -> emptyList()
-  else -> listOf(Token(this, type()))
+  else -> listOf(this)
 }
 
 /** @return the first character idx differs in type from the previous ones (or -1) */
