@@ -11,22 +11,16 @@ You need Gradle or Maven or other build tool
 ## Usage
 
 ```kotlin
-
 val tokens = "475i + '7days' + unknown".tokenize()
+// 475
+// i 
+// +
+// '7days'
+// +
+// unknown
 
-// Token(lexeme=475, type=DECIMAL_DIGIT_NUMBER), 
-// Token(lexeme=i, type=LOWERCASE_LETTER), 
-// Token(lexeme=+, type=MATH_SYMBOL), 
-// Token(lexeme='7days', type=OTHER_PUNCTUATION), 
-// Token(lexeme=+, type=MATH_SYMBOL), 
-// Token(lexeme=unknown, type=LOWERCASE_LETTER)
-
+val tokensWithCustomTypes = "475i + '7days' + unknown".tokenize { this.getType() }
 // also, you can use tokenizer with custom types
-
-fun getCustomType(lexeme: String): CustomType = ...
-
-val tokensWithCustomTypes = "475i + '7days' + unknown".tokenize(::getCustomType)
-
 ```
 
 
