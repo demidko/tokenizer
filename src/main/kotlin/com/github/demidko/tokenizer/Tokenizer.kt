@@ -3,7 +3,7 @@ package com.github.demidko.tokenizer
 /** A token consists of a lexeme and its semantic norm. */
 data class Token<T>(val lexeme: String, val type: T?)
 
-fun String.tokenize() = tokenize { first().category }
+fun String.tokenize() = tokenize { null }.map(Token<Nothing?>::lexeme)
 
 /** This function is the core of the tokenizer, providing parsing of tokens in linear time. */
 fun <T> String.tokenize(type: String.() -> T): List<Token<T>> = when (val diff = indexOfFirstDiff()) {
