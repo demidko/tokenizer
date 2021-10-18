@@ -5,7 +5,7 @@ repositories {
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.5.20"
+  kotlin("jvm") version "1.5.31"
 }
 dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
@@ -25,8 +25,7 @@ tasks.test {
 }
 publishing {
   publications {
-    create<MavenPublication>("library") {
-      groupId = "com.github.demidko"
+    create<MavenPublication>("tokeinzer") {
       from(components["java"])
     }
   }

@@ -1,6 +1,12 @@
-# [Tokenizer](https://jitpack.io/#demidko/tokenizer)
+# Tokenizer
 
 Java tokenizer library written in the Kotlin language.
+
+## Download
+
+You need Gradle or Maven or other build tool
+
+[![](https://jitpack.io/v/demidko/tokenizer.svg)](https://jitpack.io/#demidko/tokenizer)
 
 ## Usage
 
@@ -23,50 +29,6 @@ val tokensWithCustomTypes = "475i + '7days' + unknown".tokenize(::getCustomType)
 
 ```
 
-## Download with [Gradle](https://gradle.org/)
-
-Add the JitPack repository to your `build.gradle.kts`:
-
-```kotlin
-repositories {
-    maven("https://jitpack.io")
-}
-```
-
-Add the dependency:
-
-```kotlin
-dependencies {
-    implementation("com.github.demidko:tokenizer:2021.06.27")
-}
-```
-
-## Download with [Maven](https://maven.apache.org/)
-
-Add the JitPack repository to your `pom.xml`:
-
-```xml
-
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-```
-
-Add the dependency:
-
-```xml
-
-<dependencies>
-  <dependency>
-    <groupId>com.github.demidko</groupId>
-    <artifactId>tokenizer</artifactId>
-    <version>2021.06.27</version>
-  </dependency>
-</dependencies>
-```
 
 
 
