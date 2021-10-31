@@ -1,27 +1,30 @@
 package com.github.demidko.tokenizer
 
-/** This function is the core of the tokenizer, providing parsing of tokens in linear time. */
-fun String.tokenize(): List<String> = when (val diff = indexOfFirstDiff()) {
-  -1 -> grep()
-  else -> substring(0 until diff).grep() + substring(diff until length).tokenize()
-}
-
-/** Processing discovered lexemes */
-private fun String.grep() = when (isBlank()) {
-  true -> emptyList()
-  else -> listOf(this)
-}
-
-/** @return the first character idx differs in type from the previous ones (or -1) */
-private fun String.indexOfFirstDiff(): Int {
-  if (length > 1) {
-    for (idx in (1 until length)) {
-      if (isDiff(0, idx)) {
-        return idx
-      }
+/**
+ * @param namesSeparators list of names-allowed symbols. For example lower_snake_case, css-case-var
+ * @param unaryTokens symbols always one token only. For example, {{{ -> {, {, {
+ * @param stringsQuotes quote types for string literals, "string" 'string' `string`
+ */
+fun String.tokenize(
+  skipSpaces: Boolean = true,
+  namesSeparators: String = "_",
+  unaryTokens: String = ".,{}=:<>/\\",
+  stringsQuotes: String = "\"'`"
+) = mutableListOf<String>().apply {
+  var startTokenIdx = 0
+  for (finishTokenIdx in 1 until length) {
+    if (isDiff(startTokenIdx, finishTokenIdx, namesSeparators, unaryTokens, stringsQuotes)) {
+      add(substring(startTokenIdx until finishTokenIdx), skipSpaces)
+      startTokenIdx = finishTokenIdx
     }
   }
-  return -1
+  add(substring(startTokenIdx until length), skipSpaces)
+}
+
+private fun MutableList<String>.add(token: String, skipSpaces: Boolean) {
+  when {
+    !skipSpaces || token.isNotBlank() -> add(token)
+  }
 }
 
 /**
@@ -29,9 +32,18 @@ private fun String.indexOfFirstDiff(): Int {
  * based on which the string is split into lexemes.
  * @param typeIdx first symbol
  * @param otherIdx other symbol
+ * @param namesSeparators list of names-allowed symbols. For example lower_snake_case, css-case-var
+ * @param unaryTokens symbols always one token only. For example, {{{ -> {, {, {
+ * @param stringsQuotes quote types for string literals, "string" 'string' `string`
  * @return is the second index a break character?
  */
-private fun String.isDiff(typeIdx: Int, otherIdx: Int): Boolean {
+private fun String.isDiff(
+  typeIdx: Int,
+  otherIdx: Int,
+  namesSeparators: String,
+  unaryTokens: String,
+  stringsQuotes: String,
+): Boolean {
 
   // make sure symbols are available
   val type = get(typeIdx)
@@ -41,30 +53,21 @@ private fun String.isDiff(typeIdx: Int, otherIdx: Int): Boolean {
   if (type.isLetter()) {
     // Solve names with hyphens and underscores
     // Otherwise, we will assume that the name has been entered.
-    return (other !in "-_") && !other.isLetter()
+    return (other !in namesSeparators) && !other.isLetterOrDigit()
   }
 
   // handle characters that break anyway
-  if (type in ".,{}=:<>/\\") {
+  if (type in unaryTokens) {
     return true
   }
 
-  // handle '...' and "..." strings with escaping '\' symbol
-  if (type == '"') {
-    return getOrNull(otherIdx - 1) == '"'
-      && getOrNull(otherIdx - 2) != '\\'
-      && otherIdx - 1 != typeIdx
-  }
-  if (type == '\'') {
-    return getOrNull(otherIdx - 1) == '\''
-      && getOrNull(otherIdx - 2) != '\\'
-      && otherIdx - 1 != typeIdx
-  }
-
-  // handle `...` strings without escaping '\' symbol
-  if (type == '`') {
-    return getOrNull(otherIdx - 1) == '`'
-      && otherIdx - 1 != typeIdx
+  // handle string literals
+  for (quote in stringsQuotes) {
+    if (type == quote) {
+      return getOrNull(otherIdx - 1) == quote
+        && getOrNull(otherIdx - 2) != '\\'
+        && otherIdx - 1 != typeIdx
+    }
   }
 
   // use the standard character type check
